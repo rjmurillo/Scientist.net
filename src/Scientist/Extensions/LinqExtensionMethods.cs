@@ -6,6 +6,7 @@ namespace GitHub.Internals.Extensions
 {
     internal static class LinqExtensionMethods
     {
+#if !NET6_0_OR_GREATER
         /// <summary>
         /// Break a list of items into chunks of a specific size
         /// </summary>
@@ -20,5 +21,6 @@ namespace GitHub.Internals.Extensions
                 source = source.Skip(chunksize);
             }
         }
+#endif
     }
 }
