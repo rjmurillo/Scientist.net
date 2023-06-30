@@ -1,5 +1,18 @@
 <Project>
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.1;net6.0;net7.0</TargetFrameworks>
+        <TargetFrameworks>netstandard2.1;</TargetFrameworks>
+
+        <!--
+        Part of Microsoft.Managed.Core.targets, this forces support for .editorconfig
+
+        The contents of all .globalconfig files are walked upwards and combined with
+        .NET specific and user .editorconfig files, including any values in the
+        ItemGroup GlobalAnalyzerFiles.
+        -->
+        <DiscoverEditorConfigFiles>true</DiscoverEditorConfigFiles>
     </PropertyGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
+        <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    </ItemGroup>
 </Project>
