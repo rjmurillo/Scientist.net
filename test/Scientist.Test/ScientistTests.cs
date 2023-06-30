@@ -799,16 +799,16 @@ public class TheScientistClass
         }
 
         [Fact]
-        public void ThrowsArgumentExceptionWhenConcurrentTasksInvalid()
+        public async Task ThrowsArgumentExceptionWhenConcurrentTasksInvalid()
         {
             var mock = Substitute.For<IControlCandidateTask<int>>();
             mock.Control().Returns(x => 1);
             mock.Candidate().Returns(x => 2);
             const string experimentName = nameof(ThrowsArgumentExceptionWhenConcurrentTasksInvalid);
 
-            var ex = Assert.Throws<ArgumentException>(() =>
+            var ex = await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                Scientist.ScienceAsync<int>(experimentName, 0, experiment =>
+                await Scientist.ScienceAsync<int>(experimentName, 0, experiment =>
                 {
                     experiment.Use(mock.Control);
                     experiment.Try(mock.Candidate);
@@ -841,7 +841,7 @@ public class TheScientistClass
             int batch = 1;
 
             // Our test task
-            var task = new Func<Task<KeyValuePair<int, int>>>(() => 
+            var task = new Func<Task<KeyValuePair<int, int>>>(() =>
             {
                 return Task.Run(() =>
                 {

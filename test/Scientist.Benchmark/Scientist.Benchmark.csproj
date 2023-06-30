@@ -3,11 +3,12 @@
     <Description>Benchmarks for scientist</Description>
     <OutputType>Exe</OutputType>
     <RootNamespace>GitHub</RootNamespace>
+    <TargetFrameworks>net7.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Scientist\Scientist.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.11.5" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.5" />
   </ItemGroup>
 </Project>

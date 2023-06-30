@@ -28,9 +28,9 @@ namespace GitHub.Internals
         internal readonly Action<Operation, Exception> Thrown;
         internal readonly bool ThrowOnMismatches;
         internal readonly IResultPublisher ResultPublisher;
-        
+
         static Random _random = new Random(DateTimeOffset.UtcNow.Millisecond);
-        
+
         public ExperimentInstance(ExperimentSettings<T, TClean> settings)
         {
             Name = settings.Name;
@@ -78,6 +78,7 @@ namespace GitHub.Internals
 
             // Break tasks into batches of "ConcurrentTasks" size
             var observations = new List<Observation<T, TClean>>();
+
             foreach (var behaviors in orderedBehaviors.Chunk(ConcurrentTasks))
             {
                 // Run batch of behaviors simultaneously
@@ -96,7 +97,7 @@ namespace GitHub.Internals
             }
 
             var controlObservation = observations.FirstOrDefault(o => o.Name == ControlExperimentName);
-            
+
             var result = new Result<T, TClean>(this, observations, controlObservation, Contexts);
 
             try
@@ -116,7 +117,7 @@ namespace GitHub.Internals
             if (controlObservation.Thrown) throw controlObservation.Exception;
             return controlObservation.Value;
         }
-        
+
         /// <summary>
         /// Does <see cref="RunIf"/> allow the experiment to run?
         /// </summary>
@@ -150,7 +151,7 @@ namespace GitHub.Internals
                 return false;
             }
         }
-        
+
         /// <summary>
         /// Determine whether or not the experiment should run.
         /// </summary>
@@ -158,7 +159,7 @@ namespace GitHub.Internals
         {
             try
             {
-                // Only let the experiment run if at least one candidate (> 1 behaviors) is 
+                // Only let the experiment run if at least one candidate (> 1 behaviors) is
                 // included.  The control is always included behaviors count.
                 return Behaviors.Count > 1 && await Enabled().ConfigureAwait(false) && await RunIfAllows().ConfigureAwait(false);
             }
